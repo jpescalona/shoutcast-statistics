@@ -1,0 +1,8 @@
+---
+beachgrooves:
+  server: stream.beachgrooves.com
+  port: 8000
+  path: "index.html?sid=1"
+ibizaglobalradio:
+  server: ibizaglobalradio.streaming-pro.com        
+  port: 8024

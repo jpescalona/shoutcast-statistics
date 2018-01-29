@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  influxdb:
+    image: "library/influxdb"
+    networks:
+    - shoutcast
+    volumes:
+      - influxdb:/var/lib/influxdb
+    environment:
+      - INFLUXDB_DB=shoutcast
+      - INFLUXDB_USER=shoutcast      
+      - INFLUXDB_USER_PASSWORD=1shoutcast!
+    deploy:
+      replicas: 1
+  grafana:
+    image: "grafana/grafana"
+    environment:
+    - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s:/grafana
+    ports:
+    - "3000:3000"
+    networks:
+    - shoutcast
+    volumes:
+    - grafana:/var/lib/grafana
+    deploy:
+      replicas: 1
+  monitor:
+    image: "shoutcast-monitor"
+    networks:
+    - shoutcast
+    deploy:
+      replicas: 1
+
+networks:
+  shoutcast:
+
+volumes:
+  influxdb:
+  grafana:
