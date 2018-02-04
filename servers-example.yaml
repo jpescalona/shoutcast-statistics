@@ -3,6 +3,16 @@ beachgrooves:
   server: stream.beachgrooves.com
   port: 8000
   path: "index.html?sid=1"
+  radio_name: beachgrooves
+  origin: web
+beachgrooves:
+  server: stream.beachgrooves.com
+  port: 8020
+  path: "index.html?sid=1"
+  radio_name: beachgrooves
+  origin: app
 ibizaglobalradio:
   server: ibizaglobalradio.streaming-pro.com        
   port: 8024
+  radio_name: ibizaglobalradio
+  origin: web
