@@ -1,18 +1,46 @@
 ---
+beachlatino:
+  radio_name: "Beach Latino"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 8030
+      path: "index.html?sid=1"
+      origin: web  
 beachgrooves:
-  server: stream.beachgrooves.com
-  port: 8000
-  path: "index.html?sid=1"
-  radio_name: beachgrooves
-  origin: web
-beachgrooves:
-  server: stream.beachgrooves.com
-  port: 8020
-  path: "index.html?sid=1"
-  radio_name: beachgrooves
-  origin: app
+  radio_name: "Beach Grooves Radio"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 8000
+      path: "index.html?sid=1"
+      origin: web
+    - host: stream.beachgrooves.com
+      port: 8020
+      path: "index.html?sid=1"
+      origin: app
 ibizaglobalradio:
-  server: ibizaglobalradio.streaming-pro.com        
-  port: 8024
-  radio_name: ibizaglobalradio
-  origin: web
+  radio_name: "Ibiza Global Radio"
+  servers:
+    - host: ibizaglobalradio.streaming-pro.com        
+      port: 8024
+      origin: web
+    - host: 37.59.254.28
+      port: 8024
+      origin: web
+    - host: 37.59.254.31
+      port: 8024
+      origin: web
+    - host: 46.105.171.218
+      port: 8024
+      origin: web
+    - host: 37.59.254.24
+      port: 8024
+      origin: web
+    - host: 37.59.254.25
+      port: 8024
+      origin: web
+    - host: 37.59.254.26
+      port: 8024
+      origin: web
+    - host: 37.59.254.27
+      port: 8024
+      origin: web
