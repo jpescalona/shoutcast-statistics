@@ -24,7 +24,7 @@ def load_radios(file_path):
             print(exc)    
             exit(1)
 
-def get_radio_show_name(server, retries=MAX_RETRIES):
+def get_shoutcast_radio_show_name(server, retries=MAX_RETRIES):
     while retries > 0:
         try:
             url_current_song = '{protocol}://{server_host}:{server_port}/{server_path}'.format(
@@ -44,7 +44,7 @@ def get_radio_show_name(server, retries=MAX_RETRIES):
             retries -= 1
             time.sleep(0.5)
 
-def get_server_stats(server, retries=MAX_RETRIES):
+def get_shoutcast_server_stats(server, retries=MAX_RETRIES):
     while retries > 0:
         try:
             url_current_users = '{protocol}://{server_host}:{server_port}/{server_path}'.format(
@@ -69,14 +69,46 @@ def get_server_stats(server, retries=MAX_RETRIES):
             time.sleep(0.5)
         return 0, 0
 
+def get_icecast_server_stats(server, retries=MAX_RETRIES):
+    while retries > 0:
+        try:
+            url_current_users = '{protocol}://{server_host}:{server_port}/{server_path}'.format(
+                protocol='https' if server.get('secure') else 'http',
+                server_host=server.get('host'),
+                server_port=server.get('port'),
+                server_path=server.get('path', 'status.xsl')
+            )
+            r = requests.get(url_current_users)
+            if r.status_code == requests.codes.ok:
+                soup = BeautifulSoup(r.content, "html.parser")
+                for mountpoint in soup.find_all('div', class_='newscontent'):
+                    if mountpoint.find("h3", text="Mount Point " + server.get('mountpoint')):
+                        return 1, int(mountpoint.find('td', text='Current Listeners:').find_next_sibling().text), \
+                            mountpoint.find('td', text='Current Song:').find_next_sibling().text
+        except ConnectionError as e:
+            print e
+        except Exception as e:
+            print e
+        finally:
+            retries -= 1
+            time.sleep(0.5)
+        return 0, 0, None
+
 def get_radio_stats(radio_id,  radio_info):
     total, values, measurements = 0, {"total": 0}, []
-
-    if radio_info.get('servers', []):
-        current_radio_show_name = get_radio_show_name(radio_info.get('servers')[0])
+        
     for server in radio_info.get('servers', []):
         origin = server.get('origin', 'web')
-        status, current_listeners = get_server_stats(server)
+
+        if server.get('software') == 'shoutcast':
+            status, current_listeners = get_shoutcast_server_stats(server)
+            current_radio_show_name = get_shoutcast_radio_show_name(server)
+        elif server.get('software') == 'icecast':
+            status, current_listeners, current_radio_show_name = get_icecast_server_stats(server)
+
+        if current_radio_show_name is None:
+            continue
+
         measurements.append({
             "measurement": "radio_server_status",
             "tags": {
@@ -98,6 +130,9 @@ def get_radio_stats(radio_id,  radio_info):
     for key, value in values.iteritems():
         if key != 'total':
             values['total'] += value
+
+    if current_radio_show_name is None:
+        return []
 
     return measurements + [
         {

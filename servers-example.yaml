@@ -1,22 +1,77 @@
 ---
-beachlatino:
-  radio_name: "Beach Latino"
-  servers:
-    - host: stream.beachgrooves.com
-      port: 8030
-      path: "index.html?sid=1"
-      origin: web  
 beachgrooves:
   radio_name: "Beach Grooves Radio"
   servers:
     - host: stream.beachgrooves.com
       port: 8000
-      path: "index.html?sid=1"
       origin: web
     - host: stream.beachgrooves.com
       port: 8020
-      path: "index.html?sid=1"
       origin: app
+beachlatino:
+  radio_name: "Beach Latino"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 8030
+      software: shoutcast
+      origin: web
+beachdance:
+  radio_name: "Beach Dance Classics"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 8040
+      software: shoutcast
+      origin: web
+beachbass:
+  radio_name: "Beach Bass"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 8060
+      software: shoutcast
+      origin: web
+beachrock:
+  radio_name: "Beach Rock"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 7850
+      software: shoutcast
+      origin: web
+beachtrance:
+  radio_name: "Beach Trance"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 8090
+      software: shoutcast
+      origin: web
+beachchill:
+  radio_name: "Beach Chill"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 8070
+      mountpoint: /live2
+      software: icecast
+      origin: web
+sisrnbradio:
+  radio_name: "Sisu RnB Radio"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 8070
+      mountpoint: /live6
+      software: icecast
+      origin: web
+    - host: stream.beachgrooves.com
+      port: 8070
+      mountpoint: /live9
+      software: icecast
+      origin: web
+beachradiostationsfm:
+  radio_name: "Beach Radio Stations FM"
+  servers:
+    - host: stream.beachgrooves.com
+      port: 8070
+      mountpoint: /live8
+      software: icecast
+      origin: web
 ibizaglobalradio:
   radio_name: "Ibiza Global Radio"
   servers:
