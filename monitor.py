@@ -5,7 +5,10 @@ import yaml
 import re
 import sys
 import json
-from influxdb import InfluxDBClient
+try:
+    from influxdb import InfluxDBClient
+except ImportError:
+    pass
 from bs4 import BeautifulSoup
 from requests.exceptions import ConnectionError
 from datetime import datetime
@@ -99,11 +102,11 @@ def get_radio_stats(radio_id,  radio_info):
         
     for server in radio_info.get('servers', []):
         origin = server.get('origin', 'web')
-
-        if server.get('software') == 'shoutcast':
+        software = server.get('software', 'shoutcast')
+        if software == 'shoutcast':
             status, current_listeners = get_shoutcast_server_stats(server)
             current_radio_show_name = get_shoutcast_radio_show_name(server)
-        elif server.get('software') == 'icecast':
+        elif software == 'icecast':
             status, current_listeners, current_radio_show_name = get_icecast_server_stats(server)
 
         if current_radio_show_name is None:
@@ -158,5 +161,8 @@ if __name__ == "__main__":
 
     print json.dumps(measurements, indent=1)
     # PUSH the stats
-    client = InfluxDBClient('influxdb', 8086, 'shoutcast', '1shoutcast!', 'shoutcast')
-    client.write_points(measurements) 
+    try:
+        client = InfluxDBClient('influxdb', 8086, 'shoutcast', '1shoutcast!', 'shoutcast')
+        client.write_points(measurements)
+    except Exception:
+        pass
