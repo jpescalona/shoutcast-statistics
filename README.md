@@ -34,8 +34,7 @@ docker-compose start
 
 ## Proxy pass on nginx/haproxy
 
-You can extend your docker-compose to add a new service to expose grafana using a nginx or haproxy. This is out of the scope and is a user´ 
-'s choice, but here is an example configuration snippet for nginx that you can use:
+You can extend your docker-compose to add a new service to expose grafana using a nginx or haproxy. This is out of the scope and is a user's choice, but here is an example configuration snippet for nginx that you can use:
 ```
 # MANAGED BY PUPPET
 server {
@@ -51,3 +50,4 @@ server {
 
 }
 ```
+Official documentation of proxy_pass on grafana can be found on http://docs.grafana.org/installation/behind_proxy/
