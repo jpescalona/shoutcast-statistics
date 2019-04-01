@@ -14,7 +14,6 @@ services:
   grafana:
     image: "grafana/grafana"
     environment:
-    - GF_SERVER_DOMAIN=www.otioti.com
     - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s:/grafana
     ports:
     - "127.0.0.1:3000:3000"
